@@ -1,374 +1,1044 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Abdur Rahman | Portfolio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Abdur Rahman — Earth Scientist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --bg: #0f172a;
-      --bg-card: #020617;
-      --accent: #38bdf8;
-      --accent-soft: rgba(56, 189, 248, 0.12);
-      --text: #e5e7eb;
-      --text-soft: #9ca3af;
-      --border: rgba(148, 163, 184, 0.3);
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root {
+      --ink:     #0f0f0f;
+      --sub:     #6b7280;
+      --faint:   #9ca3af;
+      --line:    #e5e7eb;
+      --bg:      #ffffff;
+      --accent:  #1d4ed8;
+      --hover:   #eff6ff;
+      --serif:   'DM Serif Display', Georgia, serif;
+      --sans:    'Inter', system-ui, sans-serif;
     }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #1d283a, #020617 55%);
-      color: var(--text);
-      min-height: 100vh;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .page {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 24px 16px 60px;
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px;
+      height: 56px;
     }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 32px;
-    }
-
-    .logo {
-      font-weight: 700;
-      letter-spacing: 0.04em;
-    }
-
-    nav a {
-      color: var(--text-soft);
+    .nav-name {
+      font-weight: 500; font-size: .88rem; letter-spacing: .01em; color: var(--ink);
       text-decoration: none;
-      margin-left: 18px;
-      font-size: 0.9rem;
+    }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-size: .82rem; font-weight: 400; color: var(--sub);
+      text-decoration: none; letter-spacing: .01em;
+      transition: color .15s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── HERO ── */
+    #home {
+      padding-top: 140px; padding-bottom: 80px;
+      border-bottom: 1px solid var(--line);
     }
 
-    nav a:hover {
-      color: var(--accent);
+    /* hero layout: photo left, text right */
+    .hero-inner {
+      display: flex; gap: 48px; align-items: flex-start;
     }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--accent-soft);
-      color: var(--accent);
-      border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 0.75rem;
-      margin-bottom: 14px;
+    .hero-photo-wrap { flex-shrink: 0; }
+    .hero-photo {
+      width: 148px; height: 148px; border-radius: 50%;
+      object-fit: cover; object-position: center top;
+      border: 1px solid var(--line);
+      display: block;
     }
+    .hero-photo-placeholder {
+      width: 148px; height: 148px; border-radius: 50%;
+      background: #f3f4f6;
+      border: 1px dashed #d1d5db;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 4px;
+    }
+    .hero-photo-placeholder .initials {
+      font-family: var(--serif); font-size: 2.2rem; color: #9ca3af; line-height: 1;
+    }
+    .hero-photo-placeholder .ph-hint {
+      font-size: .65rem; color: #d1d5db; letter-spacing: .04em;
+    }
+    .hero-content { flex: 1; }
 
-    .hero {
+    /* ── PHOTO GALLERY ── */
+    .gallery-strip {
       display: grid;
-      gap: 32px;
-      grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr);
-      align-items: center;
-      margin-bottom: 40px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
     }
-
-    .hero h1 {
-      font-size: clamp(1.9rem, 3vw, 2.4rem);
-      margin-bottom: 6px;
+    .gallery-item { position: relative; overflow: hidden; border-radius: 6px; }
+    .gallery-item img {
+      width: 100%; aspect-ratio: 4/3;
+      object-fit: cover; display: block;
+      transition: transform .4s ease;
     }
-
-    .hero-subtitle {
-      color: var(--text-soft);
-      margin-bottom: 18px;
+    .gallery-item:hover img { transform: scale(1.04); }
+    .gallery-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 20px 14px 12px;
+      background: linear-gradient(to top, rgba(0,0,0,.55) 0%, transparent 100%);
+      color: white; font-size: .73rem; letter-spacing: .03em;
+      opacity: 0; transition: opacity .25s;
     }
+    .gallery-item:hover .gallery-caption { opacity: 1; }
 
-    .hero-text {
-      color: var(--text-soft);
-      line-height: 1.5;
+    .hero-eyebrow {
+      font-size: .78rem; font-weight: 500; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--accent);
       margin-bottom: 20px;
     }
-
-    .hero-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 5vw, 3.4rem);
+      font-weight: 400; line-height: 1.1;
+      color: var(--ink); margin-bottom: 20px;
+      letter-spacing: -.01em;
     }
-
-    .btn {
-      border-radius: 999px;
-      padding: 8px 18px;
-      font-size: 0.9rem;
-      text-decoration: none;
-      cursor: pointer;
-      border: 1px solid transparent;
+    .hero-bio {
+      font-size: 1.05rem; color: var(--sub); max-width: 580px;
+      line-height: 1.75; margin-bottom: 32px;
     }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #0b1120;
-      border-color: var(--accent);
+    .hero-meta {
+      font-size: .85rem; color: var(--faint); margin-bottom: 32px;
     }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border-color: var(--border);
-    }
-
-    .hero-card {
-      border-radius: 18px;
-      padding: 18px 18px 20px;
-      background: radial-gradient(circle at top left, #1d283a, #020617 60%);
-      border: 1px solid var(--border);
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.85);
-    }
-
-    .hero-card h2 {
-      font-size: 1rem;
-      margin-bottom: 6px;
-    }
-
-    .hero-card p {
-      font-size: 0.9rem;
-      color: var(--text-soft);
-      margin-bottom: 14px;
-    }
-
-    .hero-list {
-      list-style: none;
-      font-size: 0.85rem;
-      color: var(--text-soft);
-    }
-
-    .hero-list li {
-      padding: 4px 0;
-    }
-
-    main {
-      display: grid;
-      gap: 20px;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-    }
-
-    section {
-      margin-bottom: 12px;
-      border-radius: 18px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 18px 18px 16px;
-    }
-
-    section h2 {
-      font-size: 1rem;
-      margin-bottom: 10px;
-    }
-
-    section p,
-    section li {
-      font-size: 0.9rem;
-      color: var(--text-soft);
-      line-height: 1.5;
-    }
-
-    ul {
-      list-style: none;
-    }
-
-    .chip-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
+    .hero-meta span { margin-right: 16px; }
+    .hero-links { display: flex; flex-wrap: wrap; gap: 10px; }
     .chip {
-      font-size: 0.8rem;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #020617;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      font-size: .8rem; font-weight: 500; color: var(--sub);
+      text-decoration: none; transition: all .15s;
+      background: var(--bg);
+    }
+    .chip:hover { border-color: var(--accent); color: var(--accent); background: var(--hover); }
+    .chip.primary { background: var(--ink); color: white; border-color: var(--ink); }
+    .chip.primary:hover { background: #1a1a1a; }
+
+    /* stats row */
+    .stats-row {
+      display: flex; gap: 40px; flex-wrap: wrap;
+      margin-top: 48px; padding-top: 32px;
+      border-top: 1px solid var(--line);
+    }
+    .stat-num { font-family: var(--serif); font-size: 2rem; color: var(--ink); line-height: 1; }
+    .stat-desc { font-size: .75rem; color: var(--faint); margin-top: 4px; letter-spacing: .02em; }
+
+    /* ── SECTION ── */
+    section { padding: 72px 0; border-bottom: 1px solid var(--line); }
+    section:last-of-type { border-bottom: none; }
+
+    .sec-label {
+      font-size: .72rem; font-weight: 600; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--faint); margin-bottom: 36px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .sec-label::after {
+      content: ''; flex: 1; height: 1px; background: var(--line);
     }
 
-    .item {
-      margin-bottom: 12px;
+    /* ── RESEARCH ── */
+    .research-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    }
+    .research-item {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .research-item:nth-child(odd) { padding-right: 32px; border-right: 1px solid var(--line); }
+    .research-item:nth-child(even) { padding-left: 32px; }
+    .research-item:nth-last-child(-n+2) { border-bottom: none; }
+    .research-item h3 { font-size: .93rem; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+    .research-item p { font-size: .83rem; color: var(--sub); line-height: 1.65; }
+
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .tag {
+      font-size: .78rem; padding: 4px 12px;
+      border: 1px solid var(--line); border-radius: 4px;
+      color: var(--sub); background: #fafafa;
     }
 
-    .item-title {
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
+    /* ── EDUCATION ── */
+    .edu-item { padding: 24px 0; border-bottom: 1px solid var(--line); display: flex; gap: 24px; }
+    .edu-item:last-child { border-bottom: none; }
+    .edu-year { font-size: .78rem; color: var(--faint); min-width: 80px; padding-top: 3px; font-variant-numeric: tabular-nums; }
+    .edu-body {}
+    .edu-degree { font-size: .97rem; font-weight: 500; color: var(--ink); }
+    .edu-inst { font-size: .85rem; color: var(--sub); margin-top: 2px; }
+    .edu-thesis { font-size: .82rem; color: var(--faint); margin-top: 8px; font-style: italic; }
+    .edu-thesis a { color: var(--accent); text-decoration: none; }
+    .edu-thesis a:hover { text-decoration: underline; }
 
-    .item-meta {
-      font-size: 0.8rem;
-      color: var(--text-soft);
-      margin-bottom: 4px;
-    }
+    /* ── EXPERIENCE ── */
+    .exp-item { padding: 28px 0; border-bottom: 1px solid var(--line); display: flex; gap: 24px; }
+    .exp-item:last-child { border-bottom: none; }
+    .exp-year { font-size: .78rem; color: var(--faint); min-width: 80px; padding-top: 3px; line-height: 1.5; }
+    .exp-body { flex: 1; }
+    .exp-title { font-size: .97rem; font-weight: 500; color: var(--ink); }
+    .exp-inst { font-size: .85rem; color: var(--accent); margin-top: 2px; }
+    .exp-bullets { margin-top: 12px; padding-left: 0; list-style: none; }
+    .exp-bullets li { font-size: .84rem; color: var(--sub); padding: 3px 0 3px 14px; position: relative; }
+    .exp-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--line); }
 
-    .link {
-      color: var(--accent);
-      text-decoration: none;
+    /* ── PUBLICATIONS ── */
+    .pub-filter { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+    .pf-btn {
+      font-size: .78rem; font-weight: 500; padding: 5px 14px;
+      border-radius: 4px; border: 1px solid var(--line);
+      background: var(--bg); color: var(--sub); cursor: pointer;
+      transition: all .15s;
     }
+    .pf-btn.active, .pf-btn:hover { background: var(--ink); color: white; border-color: var(--ink); }
 
+    .pub-item {
+      padding: 20px 0; border-bottom: 1px solid var(--line);
+      display: flex; gap: 20px;
+    }
+    .pub-item:last-child { border-bottom: none; }
+    .pub-n {
+      font-size: .72rem; color: var(--faint); min-width: 28px;
+      padding-top: 3px; text-align: right; font-variant-numeric: tabular-nums;
+    }
+    .pub-body { flex: 1; }
+    .pub-title { font-size: .9rem; color: var(--ink); line-height: 1.55; margin-bottom: 5px; }
+    .pub-title strong { font-weight: 600; }
+    .pub-journal { font-size: .81rem; color: var(--sub); font-style: italic; }
+    .pub-doi { font-size: .78rem; color: var(--accent); text-decoration: none; display: inline-block; margin-top: 4px; }
+    .pub-doi:hover { text-decoration: underline; }
+    .pub-badge {
+      display: inline-block; font-size: .68rem; font-weight: 600;
+      padding: 2px 8px; border-radius: 3px; margin-left: 8px;
+      vertical-align: middle; letter-spacing: .02em;
+    }
+    .badge-first { background: #eff6ff; color: var(--accent); }
+    .badge-co { background: #f0fdf4; color: #16a34a; }
+    .badge-eq { background: #faf5ff; color: #7c3aed; }
+
+    /* ── STUDENTS ── */
+    .students-section-title {
+      font-size: .8rem; font-weight: 600; color: var(--faint);
+      text-transform: uppercase; letter-spacing: .1em;
+      margin-bottom: 12px; margin-top: 32px;
+    }
+    .students-section-title:first-child { margin-top: 0; }
+    .student-item {
+      display: flex; gap: 20px; padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .student-item:last-child { border-bottom: none; }
+    .student-year { font-size: .75rem; color: var(--faint); min-width: 80px; padding-top: 2px; }
+    .student-name { font-size: .9rem; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+    .student-topic { font-size: .82rem; color: var(--sub); line-height: 1.55; }
+
+    /* ── AWARDS ── */
+    .award-item { display: flex; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+    .award-item:last-child { border-bottom: none; }
+    .award-year { font-size: .75rem; color: var(--faint); min-width: 80px; padding-top: 2px; }
+    .award-name { font-size: .9rem; color: var(--ink); line-height: 1.5; }
+
+    /* ── CONFERENCES ── */
+    .conf-item { display: flex; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+    .conf-item:last-child { border-bottom: none; }
+    .conf-venue-tag {
+      font-size: .7rem; font-weight: 600; color: var(--faint);
+      min-width: 80px; padding-top: 3px; line-height: 1.5;
+      text-transform: uppercase; letter-spacing: .05em;
+    }
+    .conf-title { font-size: .88rem; color: var(--ink); line-height: 1.55; margin-bottom: 3px; }
+    .conf-venue-name { font-size: .79rem; color: var(--sub); }
+
+    /* ── SKILLS ── */
+    .skill-row { display: flex; gap: 0; padding: 18px 0; border-bottom: 1px solid var(--line); align-items: flex-start; }
+    .skill-row:last-child { border-bottom: none; }
+    .skill-cat { font-size: .78rem; font-weight: 500; color: var(--faint); min-width: 140px; padding-top: 4px; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .skill-tag { font-size: .79rem; color: var(--sub); padding: 3px 10px; border: 1px solid var(--line); border-radius: 4px; }
+
+    /* ── CONTACT ── */
+    #contact { padding-bottom: 80px; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    .contact-item { padding: 20px 0; border-bottom: 1px solid var(--line); }
+    .contact-item:nth-child(odd) { padding-right: 32px; border-right: 1px solid var(--line); }
+    .contact-item:nth-child(even) { padding-left: 32px; }
+    .contact-item:nth-last-child(-n+2) { border-bottom: none; }
+    .c-label { font-size: .72rem; font-weight: 600; color: var(--faint); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; }
+    .c-value { font-size: .9rem; color: var(--ink); }
+    .c-value a { color: var(--accent); text-decoration: none; }
+    .c-value a:hover { text-decoration: underline; }
+
+    /* ── FOOTER ── */
     footer {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 18px 16px 32px;
-      font-size: 0.8rem;
-      color: var(--text-soft);
-      text-align: center;
+      text-align: center; padding: 32px 24px;
+      font-size: .78rem; color: var(--faint);
+      border-top: 1px solid var(--line);
     }
 
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-      }
-      nav {
-        display: none; /* keep it simple on mobile */
-      }
-      .hero {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      main {
-        grid-template-columns: minmax(0, 1fr);
-      }
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      #home { padding-top: 100px; }
+      .hero-inner { flex-direction: column; gap: 28px; }
+      .hero-photo, .hero-photo-placeholder { width: 100px; height: 100px; }
+      .research-grid { grid-template-columns: 1fr; }
+      .research-item:nth-child(odd) { border-right: none; padding-right: 0; }
+      .research-item:nth-child(even) { padding-left: 0; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .contact-item:nth-child(odd) { border-right: none; padding-right: 0; }
+      .contact-item:nth-child(even) { padding-left: 0; }
+      .stats-row { gap: 24px; }
+      .gallery-strip { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <header>
-      <div class="logo">Abdur Rahman</div>
-      <nav>
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#skills">Skills</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </header>
 
-    <section class="hero">
-      <div>
-        <div class="badge">Available for opportunities</div>
-        <h1>Hi, I’m Abdur Rahman.</h1>
-        <p class="hero-subtitle">[Your title here – e.g. “Student & Developer”]</p>
-        <p class="hero-text">
-          Briefly introduce yourself here. Mention what you’re studying or working on,
-          your main interests, and what you’re hoping to do next.
-        </p>
-        <div class="hero-buttons">
-          <a class="btn btn-primary" href="#projects">View projects</a>
-          <a class="btn btn-outline" href="#contact">Get in touch</a>
+<!-- NAV -->
+<nav>
+  <a class="nav-name" href="#home">Abdur Rahman</a>
+  <ul class="nav-links">
+    <li><a href="#research">Research</a></li>
+    <li><a href="#publications">Papers</a></li>
+    <li><a href="#education">Background</a></li>
+    <li><a href="#students">Students</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="page" id="home">
+  <div style="padding-top:140px; padding-bottom:80px; border-bottom:1px solid var(--line);">
+    <div class="hero-inner">
+
+      <!-- Profile photo -->
+      <div class="hero-photo-wrap">
+        <img
+          class="hero-photo"
+          src="profile.jpg"
+          alt="Dr. Abdur Rahman"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        />
+        <div class="hero-photo-placeholder" style="display:none;">
+          <span class="initials">AR</span>
         </div>
       </div>
 
-      <div class="hero-card">
-        <h2>At a glance</h2>
-        <p>Update this box with a quick summary of who you are.</p>
-        <ul class="hero-list">
-          <li>• Location: [Your city / country]</li>
-          <li>• Focus: [e.g. Web development, data science, climate]</li>
-          <li>• Currently: [e.g. BSc student, research intern]</li>
-        </ul>
-      </div>
-    </section>
-
-    <main>
-      <!-- Left column -->
-      <div>
-        <section id="about">
-          <h2>About</h2>
-          <p>
-            Write a fuller paragraph about your background, what you’re studying or have studied,
-            and what topics excite you. You can mention any clubs, labs, or side projects you’re part of.
-          </p>
-        </section>
-
-        <section id="projects">
-          <h2>Projects</h2>
-          <div class="item">
-            <div class="item-title">Project 1 title</div>
-            <div class="item-meta">
-              Short tag line ·
-              <a class="link" href="#" target="_blank">GitHub</a>
-            </div>
-            <p>
-              2–3 sentences describing what the project does, what technologies you used,
-              and what you learned.
-            </p>
-          </div>
-
-          <div class="item">
-            <div class="item-title">Project 2 title</div>
-            <div class="item-meta">
-              Short tag line ·
-              <a class="link" href="#" target="_blank">GitHub</a>
-            </div>
-            <p>
-              Another project description. This can be a coursework project, personal
-              experiment, or anything you’re proud of.
-            </p>
-          </div>
-        </section>
-
-        <section id="experience">
-          <h2>Experience / Activities</h2>
-          <div class="item">
-            <div class="item-title">Role or position</div>
-            <div class="item-meta">Organization · Dates</div>
-            <p>
-              Bullet-style description of what you did, what tools you used, and
-              any achievements or outcomes.
-            </p>
-          </div>
-        </section>
+      <div class="hero-content">
+        <div class="hero-eyebrow">Assistant Research Fellow · National Chung Cheng University</div>
+        <h1 class="hero-name">Abdur Rahman</h1>
+        <p class="hero-bio">
+          Earth scientist working at the intersection of paleoclimate, biogeochemistry, and sedimentology.
+          My research uses stable isotopes, black carbon, and multi-proxy records from lake and marine
+          sediments to reconstruct past climate change, wildfire history, and human–environment interactions
+          across Asia.
+        </p>
+        <p class="hero-meta">
+          <span>Chiayi, Taiwan</span>
+          <span>PhD · Earth Sciences · PRL / Pondicherry University</span>
+        </p>
+        <div class="hero-links">
+          <a class="chip primary" href="mailto:astabdull@ccu.edu.tw">Email</a>
+          <a class="chip" href="https://scholar.google.com/citations?user=3f8vIOMAAAAJ&hl=en" target="_blank">Google Scholar</a>
+          <a class="chip" href="https://www.researchgate.net/profile/Abdur-Rahman-52" target="_blank">ResearchGate</a>
+          <a class="chip" href="https://orcid.org/0000-0001-6135-154X" target="_blank">ORCID</a>
+          <a class="chip" href="https://twitter.com/shant_admi" target="_blank">Twitter / X</a>
+          <a class="chip" href="https://www.prl.res.in/~library/gpdf/prl-theses/Abdur_Rahman_2022.pdf" target="_blank">PhD Thesis</a>
+        </div>
+        <div class="stats-row">
+          <div><div class="stat-num">26</div><div class="stat-desc">Publications</div></div>
+          <div><div class="stat-num">12</div><div class="stat-desc">First-Author</div></div>
+          <div><div class="stat-num">9+</div><div class="stat-desc">Years Research</div></div>
+          <div><div class="stat-num">10</div><div class="stat-desc">Students Mentored</div></div>
+        </div>
       </div>
 
-      <!-- Right column -->
-      <div>
-        <section id="skills">
-          <h2>Skills</h2>
-          <div class="chip-row">
-            <span class="chip">Python</span>
-            <span class="chip">Git & GitHub</span>
-            <span class="chip">HTML & CSS</span>
-            <span class="chip">[Add more]</span>
-          </div>
-        </section>
-
-        <section id="education">
-          <h2>Education</h2>
-          <div class="item">
-            <div class="item-title">[Your degree / program]</div>
-            <div class="item-meta">[University] · [Years]</div>
-            <p>
-              Optionally add a short line about your specialization or key coursework.
-            </p>
-          </div>
-        </section>
-
-        <section id="contact">
-          <h2>Contact</h2>
-          <p>Email: <a class="link" href="mailto:you@example.com">you@example.com</a></p>
-          <p>LinkedIn: <a class="link" href="#" target="_blank">Your LinkedIn profile</a></p>
-          <p>GitHub: <a class="link" href="https://github.com/Abdur709" target="_blank">github.com/Abdur709</a></p>
-        </section>
-      </div>
-    </main>
+    </div><!-- /hero-inner -->
   </div>
+</div>
 
-  <footer>
-    © <span id="year"></span> Abdur Rahman. Built with GitHub Pages.
-  </footer>
+<!-- PHOTO GALLERY -->
+<div class="page">
+  <section id="photos" style="padding: 56px 0;">
+    <div class="sec-label">Field &amp; Lab</div>
+    <div class="gallery-strip">
 
-  <script>
-    // Set current year automatically
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+      <!-- Photo 1: Taiwan lake landscape — replace src with your own -->
+      <div class="gallery-item">
+        <img
+          src="https://images.unsplash.com/photo-1504198458649-3128b932f49e?w=600&q=80&fit=crop&crop=center"
+          alt="Lake sediment fieldwork, Taiwan"
+          loading="lazy"
+          onerror="this.parentElement.style.background='#f3f4f6'; this.style.display='none';"
+        />
+        <div class="gallery-caption">Fieldwork · Taiwan</div>
+      </div>
+
+      <!-- Photo 2: Himalayan mountains — replace src with your own -->
+      <div class="gallery-item">
+        <img
+          src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80&fit=crop&crop=center"
+          alt="Himalayan fieldwork, India"
+          loading="lazy"
+          onerror="this.parentElement.style.background='#f3f4f6'; this.style.display='none';"
+        />
+        <div class="gallery-caption">Himalaya · India</div>
+      </div>
+
+      <!-- Photo 3: Laboratory — replace src with your own -->
+      <div class="gallery-item">
+        <img
+          src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=600&q=80&fit=crop&crop=center"
+          alt="Isotope geochemistry laboratory"
+          loading="lazy"
+          onerror="this.parentElement.style.background='#f3f4f6'; this.style.display='none';"
+        />
+        <div class="gallery-caption">Isotope Laboratory</div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- RESEARCH -->
+<div class="page">
+  <section id="research">
+    <div class="sec-label">Research Interests</div>
+    <div class="research-grid">
+      <div class="research-item">
+        <h3>Stable Isotope Biogeochemistry</h3>
+        <p>C, N, O isotopes in lake sediments, organic matter, and diatoms to reconstruct past environments and biogeochemical cycles.</p>
+      </div>
+      <div class="research-item">
+        <h3>Black Carbon Dynamics</h3>
+        <p>Tracking wildfire-derived black carbon through the terrestrial–marine continuum using elemental and isotopic signatures.</p>
+      </div>
+      <div class="research-item">
+        <h3>Paleoclimate Reconstruction</h3>
+        <p>Multi-proxy sedimentary archives from lakes across Taiwan and the Himalayas to reconstruct Holocene and Quaternary climate variability.</p>
+      </div>
+      <div class="research-item">
+        <h3>Extreme Climate Events</h3>
+        <p>Sedimentary records of past wildfires and typhoons and their connections to monsoon dynamics and human activity.</p>
+      </div>
+      <div class="research-item">
+        <h3>Carbon &amp; Nitrogen Cycling</h3>
+        <p>Tracing C and N fluxes through terrestrial, lacustrine, and marine systems over geological timescales.</p>
+      </div>
+      <div class="research-item">
+        <h3>Environmental Pollution</h3>
+        <p>Anthropogenic signatures of black carbon, heavy metals, and microplastics in sedimentary environments.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;">
+      <div class="sec-label">Teaching Interests</div>
+      <div class="tag-cloud">
+        <span class="tag">Stable Isotope Geochemistry</span>
+        <span class="tag">Environmental Geochemistry &amp; Climate Change</span>
+        <span class="tag">Chemical Oceanography</span>
+        <span class="tag">Structural Geology</span>
+        <span class="tag">Mineralogy</span>
+        <span class="tag">Environmental Chemistry</span>
+        <span class="tag">Wildfire Dynamics</span>
+        <span class="tag">Biogeochemistry &amp; Ecosystem Science</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- EDUCATION + EXPERIENCE -->
+<div class="page">
+  <section id="education">
+    <div class="sec-label">Education</div>
+
+    <div class="edu-item">
+      <div class="edu-year">2022</div>
+      <div class="edu-body">
+        <div class="edu-degree">Ph.D. in Earth Sciences</div>
+        <div class="edu-inst">Physical Research Laboratory (PRL) &amp; Pondicherry University, India</div>
+        <div class="edu-thesis">Thesis: <a href="https://www.prl.res.in/~library/gpdf/prl-theses/Abdur_Rahman_2022.pdf" target="_blank">Paleoenvironmental Reconstruction of the Himalayan Region Using Stable Isotopes in Lake Sediments</a></div>
+      </div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-year">2014–16</div>
+      <div class="edu-body">
+        <div class="edu-degree">M.Sc. in Applied Geology</div>
+        <div class="edu-inst">Aligarh Muslim University, India</div>
+      </div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-year">2011–14</div>
+      <div class="edu-body">
+        <div class="edu-degree">B.Sc. in Geology</div>
+        <div class="edu-inst">Aligarh Muslim University, India</div>
+      </div>
+    </div>
+
+    <div style="margin-top:56px;">
+      <div class="sec-label">Experience</div>
+
+      <div class="exp-item">
+        <div class="exp-year">2026–<br>Present</div>
+        <div class="exp-body">
+          <div class="exp-title">Assistant Research Fellow <span style="font-size:.78rem;color:var(--accent);font-weight:500;margin-left:8px;">Tenure Track</span></div>
+          <div class="exp-inst">National Chung Cheng University, Taiwan</div>
+          <ul class="exp-bullets">
+            <li>Leading research on Quaternary climate variability, black carbon transport, and wildfire–climate interactions using lake and marine archives.</li>
+            <li>Mentoring undergraduate and graduate students in fieldwork and laboratory analysis.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-year">2023–26</div>
+        <div class="exp-body">
+          <div class="exp-title">Postdoctoral Fellow</div>
+          <div class="exp-inst">National Chung Cheng University, Taiwan</div>
+          <ul class="exp-bullets">
+            <li>Led sedimentary archive-based research on Holocene climate variability in Taiwan.</li>
+            <li>Collaborated with international teams on paleoclimate proxy interpretation.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-year">2021–23</div>
+        <div class="exp-body">
+          <div class="exp-title">Postdoctoral Fellow</div>
+          <div class="exp-inst">Physical Research Laboratory, India</div>
+          <ul class="exp-bullets">
+            <li>Isotope-based research on Himalayan paleoclimate, lake sediment biogeochemistry, and black carbon dynamics.</li>
+            <li>Trained students on EA-IRMS, Picarro GHG Analyzer, and radiocarbon sample preparation.</li>
+            <li>Presented research at AGU, EGU, and national geoscience conferences.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-year">2016–22</div>
+        <div class="exp-body">
+          <div class="exp-title">Senior &amp; Junior Research Fellow</div>
+          <div class="exp-inst">Physical Research Laboratory, India</div>
+          <ul class="exp-bullets">
+            <li>Doctoral research on Himalayan paleoenvironments using stable isotope systematics in lake sediments.</li>
+            <li>Guest lectures and lab supervision for MSc/PhD students on Isotope Geochemistry and Paleoclimate methods.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PUBLICATIONS -->
+<div class="page">
+  <section id="publications">
+    <div class="sec-label">Publications</div>
+    <div class="pub-filter">
+      <button class="pf-btn active" onclick="filterPubs('all',this)">All · 26</button>
+      <button class="pf-btn" onclick="filterPubs('first',this)">First / Corresponding · 12</button>
+      <button class="pf-btn" onclick="filterPubs('co',this)">Co-authored · 14</button>
+    </div>
+
+    <div id="pub-list">
+
+      <div class="pub-item" data-type="first">
+        <div class="pub-n">01</div>
+        <div class="pub-body">
+          <div class="pub-title"><strong>Rahman, A.</strong> et al. (2026). Shifting drivers of lake ecology in northern Taiwan over the last 1800 years: From climate variability to human land-use change.<span class="pub-badge badge-first">First author</span></div>
+          <div class="pub-journal">CATENA, 263, 109738</div>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="first">
+        <div class="pub-n">02</div>
+        <div class="pub-body">
+          <div class="pub-title"><strong>Abdur Rahman</strong> et al. (2025). Typhoon and climate history of northeastern Taiwan during mid to late Holocene: Dahu Lake sediment core, Ilan Plain.<span class="pub-badge badge-first">First author</span></div>
+          <div class="pub-journal">AGU Palaeoceanography and Paleoclimatology</div>
+          <a class="pub-doi" href="https://doi.org/10.1029/2025PA005282" target="_blank">doi:10.1029/2025PA005282</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="first">
+        <div class="pub-n">03</div>
+        <div class="pub-body">
+          <div class="pub-title"><strong>Rahman, A.</strong> &amp; Wang, L.C. (2025). Hydroclimate changes in Northern Taiwan during 13.3 cal kyr BP through the Tsui Tsui Valley sediments.<span class="pub-badge badge-first">First author</span></div>
+          <div class="pub-journal">Palaeogeography, Palaeoclimatology, Palaeoecology, 663, 112775</div>
+          <a class="pub-doi" href="https://doi.org/10.1016/j.palaeo.2025.112775" target="_blank">doi:10.1016/j.palaeo.2025.112775</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="first">
+        <div class="pub-n">04</div>
+        <div class="pub-body">
+          <div class="pub-title"><strong>Rahman, A.</strong> et al. (2025). Impact of climate and human-induced fire on the Dongyuan Lake, Southern Taiwan during the last 1850 cal years BP.<span class="pub-badge badge-first">First author</span></div>
+          <div class="pub-journal">Geoscience Letters, 12(1), 4</div>
+          <a class="pub-doi" href="https://doi.org/10.1186/s40562-025-00378-6" target="_blank">doi:10.1186/s40562-025-00378-6</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="first">
+        <div class="pub-n">05</div>
+        <div class="pub-body">
+          <div class="pub-title"><strong>Rahman, A.</strong> et al. (2024). Wildfire-vegetation-climate-human interactions in central Taiwan during 17.3–2.0 cal kyr BP: Toushe Basin sediments.<span class="pub-badge badge-first">First author</span></div>
+          <div class="pub-journal">Quaternary Science Reviews, 338, 108820</div>
+          <a class="pub-doi" href="https://doi.org/10.1016/j.quascirev.2024.108820" target="_blank">doi:10.1016/j.quascirev.2024.108820</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="first">
+        <div class="pub-n">06</div>
+        <div class="pub-body">
+          <div class="pub-title"><strong>Rahman, A.*</strong> et al. (2024). Carbon and nitrogen biogeochemistry of a high-altitude Himalayan lake sediment: late Holocene climate inferences.<span class="pub-badge badge-first">Corresponding</span></div>
+          <div class="pub-journal">Quaternary Science Advances, 14, 100199</div>
+          <a class="pub-doi" href="https://doi.org/10.1016/j.qsa.2024.100199" target="_blank">doi:10.1016/j.qsa.2024.100199</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="first">
+        <div class="pub-n">07</div>
+        <div class="pub-body">
+          <div class="pub-title"><strong>Rahman, A.</strong> et al. (2024). Late Holocene paleoclimate reconstruction of northern Taiwan using a multiproxy approach: Dream Lake sediment core.<span class="pub-badge badge-first">First author</span></div>
+          <div class="pub-journal">Quaternary International, 693, 27–37</div>
+          <a class="pub-doi" href="https://doi.org/10.1016/j.quaint.2024.02.013" target="_blank">doi:10.1016/j.quaint.2024.02.013</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="first">
+        <div class="pub-n">08</div>
+        <div class="pub-body">
+          <div class="pub-title"><strong>Rahman, A.*</strong> et al. (2024). Transport pathways of black carbon to a high mountain Himalayan lake during late Holocene: nitrogen isotopes of black carbon.<span class="pub-badge badge-first">Corresponding</span></div>
+          <div class="pub-journal">Palaeogeography, Palaeoclimatology, Palaeoecology, 633, 111865</div>
+          <a class="pub-doi" href="https://doi.org/10.1016/j.palaeo.2023.111865" target="_blank">doi:10.1016/j.palaeo.2023.111865</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="first">
+        <div class="pub-n">09</div>
+        <div class="pub-body">
+          <div class="pub-title">Verma, S.†, <strong>Rahman, A.†</strong> et al. (2023). Late Holocene fire and precipitation history of the Kashmir Himalaya: black carbon in lake sediments.<span class="pub-badge badge-eq">Equal contribution</span></div>
+          <div class="pub-journal">Palaeogeography, Paleoclimatology, Paleoecology, 613, 111401</div>
+          <a class="pub-doi" href="https://doi.org/10.1016/j.palaeo.2023.111401" target="_blank">doi:10.1016/j.palaeo.2023.111401</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="first">
+        <div class="pub-n">10</div>
+        <div class="pub-body">
+          <div class="pub-title"><strong>Rahman, A.</strong> et al. (2021). Hydrological characteristics of the Bay of Bengal water column using δ¹⁸O during the Indian summer monsoon.<span class="pub-badge badge-first">First author</span></div>
+          <div class="pub-journal">Continental Shelf Research, 226, 104491</div>
+          <a class="pub-doi" href="https://doi.org/10.1016/j.csr.2021.104491" target="_blank">doi:10.1016/j.csr.2021.104491</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="first">
+        <div class="pub-n">11</div>
+        <div class="pub-body">
+          <div class="pub-title"><strong>Rahman, A.</strong> et al. (2021). Signatures of natural to anthropogenic transition in lake sediments from the Central Himalaya using stable isotopes.<span class="pub-badge badge-first">First author</span></div>
+          <div class="pub-journal">Applied Geochemistry, 134, 105095</div>
+          <a class="pub-doi" href="https://doi.org/10.1016/j.apgeochem.2021.105095" target="_blank">doi:10.1016/j.apgeochem.2021.105095</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="first">
+        <div class="pub-n">12</div>
+        <div class="pub-body">
+          <div class="pub-title"><strong>Rahman, A.</strong>, Sarkar, S. &amp; Kumar, S. (2020). Paleoenvironment of the Central Himalaya during late MIS 3 using stable isotopic compositions of lacustrine organic matter.<span class="pub-badge badge-first">First author</span></div>
+          <div class="pub-journal">Quaternary International, 558, 1–9</div>
+          <a class="pub-doi" href="https://doi.org/10.1016/j.quaint.2020.08.024" target="_blank">doi:10.1016/j.quaint.2020.08.024</a>
+        </div>
+      </div>
+
+      <!-- CO-AUTHORS -->
+      <div class="pub-item" data-type="co">
+        <div class="pub-n">13</div>
+        <div class="pub-body">
+          <div class="pub-title">Saranya P., Sreelash K., Akhil T., <strong>Abdur Rahman</strong>, Laskar A.H., Kumar S. Eco-hydrological connectivity in soil-vegetation-atmosphere continuum in a tropical biodiversity hotspot.<span class="pub-badge badge-co">Co-author</span></div>
+          <div class="pub-journal">Ecohydrology (accepted)</div>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="co">
+        <div class="pub-n">14</div>
+        <div class="pub-body">
+          <div class="pub-title">Roy P., Fu C.C., <strong>Rahman A.</strong> et al. (2026). Fumarolic CO₂ Dynamics: A Case Study from the Tatun Volcano Group, Taiwan.<span class="pub-badge badge-co">Co-author</span></div>
+          <div class="pub-journal">ACS Earth and Space Chemistry</div>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="co">
+        <div class="pub-n">15</div>
+        <div class="pub-body">
+          <div class="pub-title">Tang Z.W., Wang L.C., Chen H.F., <strong>Rahman A.</strong> et al. (2025). Holocene environmental evolution of the Pinqing Lagoon: insights from multiproxy sediment analysis.<span class="pub-badge badge-co">Co-author</span></div>
+          <div class="pub-journal">Terrestrial, Atmosphere and Ocean Sciences, 36, 26</div>
+          <a class="pub-doi" href="https://doi.org/10.1007/s44195-025-00110-z" target="_blank">doi:10.1007/s44195-025-00110-z</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="co">
+        <div class="pub-n">16</div>
+        <div class="pub-body">
+          <div class="pub-title">Ali S., Dey G., Nuonga N.H.K., <strong>Rahman A.</strong> et al. (2025). Carbon sequestration in mangrove ecosystems: Sources, transportation pathways, influencing factors, and its role in the carbon budget.<span class="pub-badge badge-co">Co-author</span></div>
+          <div class="pub-journal">Earth-Science Reviews, 269, 105184</div>
+          <a class="pub-doi" href="https://doi.org/10.1016/j.earscirev.2025.105184" target="_blank">doi:10.1016/j.earscirev.2025.105184</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="co">
+        <div class="pub-n">17</div>
+        <div class="pub-body">
+          <div class="pub-title">Rathi A., Sarkar S., <strong>Rahman A.</strong>, Khan M.A., Kumar S. (2025). Monsoon decline versus summertime intensification of carbon and nitrogen fixation in a shallow tropical lake.<span class="pub-badge badge-co">Co-author</span></div>
+          <div class="pub-journal">Ecohydrology &amp; Hydrobiology, 100670</div>
+          <a class="pub-doi" href="https://doi.org/10.1016/j.ecohyd.2025.100670" target="_blank">doi:10.1016/j.ecohyd.2025.100670</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="co">
+        <div class="pub-n">18</div>
+        <div class="pub-body">
+          <div class="pub-title">Sarkar S., <strong>Rahman A.</strong>, Khan M.A. et al. (2024). Isotopic evidence for degradation of particulate black carbon in the ocean.<span class="pub-badge badge-co">Co-author</span></div>
+          <div class="pub-journal">Geophysical Research Letters, 51(9), e2023GL106050</div>
+          <a class="pub-doi" href="https://doi.org/10.1029/2023GL106050" target="_blank">doi:10.1029/2023GL106050</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="co">
+        <div class="pub-n">19</div>
+        <div class="pub-body">
+          <div class="pub-title">Shah R.A., <strong>Rahman A.</strong>, Yadava M.G., Kumar S. (2024). Mid–late Holocene palaeoclimate and biogeochemical evolution of Wular Lake, Kashmir Valley, India.<span class="pub-badge badge-co">Co-author</span></div>
+          <div class="pub-journal">Journal of Quaternary Science, 39(1), 119–129</div>
+          <a class="pub-doi" href="https://doi.org/10.1002/jqs.3565" target="_blank">doi:10.1002/jqs.3565</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="co">
+        <div class="pub-n">20</div>
+        <div class="pub-body">
+          <div class="pub-title">Sarkar S., Khan M.A., Sharma N., <strong>Rahman A.</strong> et al. (2023). Lake Desiccation drives carbon and nitrogen biogeochemistry of a sub-tropical hypersaline lake.<span class="pub-badge badge-co">Co-author</span></div>
+          <div class="pub-journal">Hydrobiologia, 850(20), 4557–4574</div>
+          <a class="pub-doi" href="https://doi.org/10.1007/s10750-023-05193-8" target="_blank">doi:10.1007/s10750-023-05193-8</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="co">
+        <div class="pub-n">21</div>
+        <div class="pub-body">
+          <div class="pub-title">Ragavan P., <strong>Rahman A.</strong>, Sarkar S. et al. (2023). Variability in soil organic carbon stock and isotopic signature in tropical island mangrove forests of India.<span class="pub-badge badge-co">Co-author</span></div>
+          <div class="pub-journal">Regional Environmental Change, 23(4), 135</div>
+          <a class="pub-doi" href="https://doi.org/10.1007/s10113-023-02130-2" target="_blank">doi:10.1007/s10113-023-02130-2</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="co">
+        <div class="pub-n">22</div>
+        <div class="pub-body">
+          <div class="pub-title">Khan M.A., <strong>Rahman A.</strong>, Sahoo D. et al. (2022). Nitrous oxide in the central Bay of Bengal during the summer monsoon.<span class="pub-badge badge-co">Co-author</span></div>
+          <div class="pub-journal">Regional Studies in Marine Science, 52, 102314</div>
+          <a class="pub-doi" href="https://doi.org/10.1016/j.rsma.2022.102314" target="_blank">doi:10.1016/j.rsma.2022.102314</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="co">
+        <div class="pub-n">23</div>
+        <div class="pub-body">
+          <div class="pub-title">Behera D., Bhattacharya S., <strong>Rahman A.</strong>, Kumar S., Anoop A. (2022). Molecular tracers for characterization and distribution of organic matter in a freshwater lake system from the Lesser Himalaya.<span class="pub-badge badge-co">Co-author</span></div>
+          <div class="pub-journal">Biogeochemistry, 161, 315–334</div>
+          <a class="pub-doi" href="https://doi.org/10.1007/s10533-022-00984-y" target="_blank">doi:10.1007/s10533-022-00984-y</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="co">
+        <div class="pub-n">24</div>
+        <div class="pub-body">
+          <div class="pub-title">Shah R.A., Khan I., <strong>Rahman A.</strong> et al. (2022). Holocene climate events and associated land use changes in the eastern coast of India: Inferences from the Chilika Lagoon.<span class="pub-badge badge-co">Co-author</span></div>
+          <div class="pub-journal">The Holocene, 32(10), 1081–1090</div>
+          <a class="pub-doi" href="https://doi.org/10.1177/09596836221106964" target="_blank">doi:10.1177/09596836221106964</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="co">
+        <div class="pub-n">25</div>
+        <div class="pub-body">
+          <div class="pub-title">Shah R.A., Achyuthan H., Lone A., Kumar P., Ali A., <strong>Rahman A.</strong> (2021). Paleoenvironment shifts during last ~500 years and eutrophic evolution of Wular Lake, Kashmir Valley.<span class="pub-badge badge-co">Co-author</span></div>
+          <div class="pub-journal">Limnology, 22(1), 111–110</div>
+          <a class="pub-doi" href="https://doi.org/10.1007/s10201-020-00639-7" target="_blank">doi:10.1007/s10201-020-00639-7</a>
+        </div>
+      </div>
+
+      <div class="pub-item" data-type="co">
+        <div class="pub-n">26</div>
+        <div class="pub-body">
+          <div class="pub-title">Sahoo D., Saxena H., Tripathi N., Khan M.A., <strong>Rahman A.</strong>, Kumar S., Singh A. (2020). Non-Redfieldian C:N:P ratio in the Bay of Bengal during the summer monsoon.<span class="pub-badge badge-co">Co-author</span></div>
+          <div class="pub-journal">Marine Ecology Progress Series, 653, 41–55</div>
+          <a class="pub-doi" href="https://doi.org/10.3354/meps13498" target="_blank">doi:10.3354/meps13498</a>
+        </div>
+      </div>
+
+    </div><!-- /pub-list -->
+  </section>
+</div>
+
+<!-- STUDENTS -->
+<div class="page">
+  <section id="students">
+    <div class="sec-label">Students Mentored</div>
+
+    <div class="students-section-title">PhD Project Students · Physical Research Laboratory, India</div>
+
+    <div class="student-item">
+      <div class="student-year">2018–19</div>
+      <div><div class="student-name">Siddhartha Sarkar</div><div class="student-topic">Paleo-lake carbon cycle using carbon isotopes of diatom-bound organic matter (PRL-JRF)</div></div>
+    </div>
+    <div class="student-item">
+      <div class="student-year">2018–19</div>
+      <div><div class="student-name">Yash Shrivastava</div><div class="student-topic">Oxygen isotope analysis using laser fluorination system (PRL-JRF)</div></div>
+    </div>
+    <div class="student-item">
+      <div class="student-year">2019–20</div>
+      <div><div class="student-name">Ajayeta Rathi</div><div class="student-topic">Identification of natural vs. human-induced forest fire signals using sedimentary black carbon (PRL-JRF)</div></div>
+    </div>
+    <div class="student-item">
+      <div class="student-year">2021–22</div>
+      <div><div class="student-name">Rahul Kumar Agrawal</div><div class="student-topic">Himalayan forest fire history over the last 4000 years using sedimentary black carbon (PRL-JRF)</div></div>
+    </div>
+    <div class="student-item">
+      <div class="student-year">2023</div>
+      <div><div class="student-name">P. Janarthanan</div><div class="student-topic">Oxygen isotope analysis of silicates using laser fluorination (PRL-JRF)</div></div>
+    </div>
+
+    <div class="students-section-title" style="margin-top:36px;">Internship &amp; Project Students</div>
+
+    <div class="student-item">
+      <div class="student-year">2019 · PRL</div>
+      <div><div class="student-name">Madhusmita Sahoo</div><div class="student-topic">Paleo-carbon cycle dynamics of Garud Lake over the last 66 years</div></div>
+    </div>
+    <div class="student-item">
+      <div class="student-year">2024 · CCU</div>
+      <div><div class="student-name">Czarina Mei Laope</div><div class="student-topic">Preliminary black carbon analysis from a sediment core in Liyu Lake, Taiwan</div></div>
+    </div>
+    <div class="student-item">
+      <div class="student-year">2025 · CCU</div>
+      <div><div class="student-name">Ellaine Jalos</div><div class="student-topic">Assessment of trace metal pollution in Philippine coastal surface sediments</div></div>
+    </div>
+    <div class="student-item">
+      <div class="student-year">2025 · CCU</div>
+      <div><div class="student-name">Fatin Faizdal</div><div class="student-topic">Organic and black carbon sequestration in mangrove sediments in Malaysia</div></div>
+    </div>
+    <div class="student-item">
+      <div class="student-year">2025 · CCU</div>
+      <div><div class="student-name">Ayaka Shimizu</div><div class="student-topic">Fire reconstruction of last 100 kiloyears in central Taiwan using black carbon in Sun Moon Lake sediments</div></div>
+    </div>
+  </section>
+</div>
+
+<!-- AWARDS -->
+<div class="page">
+  <section id="awards">
+    <div class="sec-label">Awards &amp; Fellowships</div>
+
+    <div class="award-item">
+      <div class="award-year">2026</div>
+      <div class="award-name">Assistant Research Fellowship (equivalent to Assistant Professor) — National Chung Cheng University, Taiwan</div>
+    </div>
+    <div class="award-item">
+      <div class="award-year">2023–26</div>
+      <div class="award-name">National Science and Technology Council Postdoctoral Fellowship — Taiwan</div>
+    </div>
+    <div class="award-item">
+      <div class="award-year">2021–23</div>
+      <div class="award-name">Physical Research Laboratory Postdoctoral Fellowship — India</div>
+    </div>
+    <div class="award-item">
+      <div class="award-year">2017–22</div>
+      <div class="award-name">Physical Research Laboratory Senior Research Fellowship — India</div>
+    </div>
+    <div class="award-item">
+      <div class="award-year">2016–17</div>
+      <div class="award-name">Physical Research Laboratory Junior Research Fellowship — India</div>
+    </div>
+    <div class="award-item">
+      <div class="award-year">2016, 17</div>
+      <div class="award-name">Qualified GATE (Graduate Aptitude Test in Engineering)</div>
+    </div>
+    <div class="award-item">
+      <div class="award-year">2015</div>
+      <div class="award-name">Qualified UGC-NET (National Eligibility Test for Lectureship)</div>
+    </div>
+    <div class="award-item">
+      <div class="award-year">2014</div>
+      <div class="award-name">Qualified IIT-JAM (Joint Admission Test for M.Sc.)</div>
+    </div>
+  </section>
+</div>
+
+<!-- CONFERENCES -->
+<div class="page">
+  <section id="conferences">
+    <div class="sec-label">Talks &amp; Conferences</div>
+
+    <div class="conf-item">
+      <div class="conf-venue-tag">TGA 2025<br>Oral</div>
+      <div><div class="conf-title">Hydroclimate Changes in Northern Taiwan Since 13.3 cal kyr BP: Multiproxy Evidence from Tsui Tsui Valley Sediments</div><div class="conf-venue-name">Taiwan Geosciences Assembly</div></div>
+    </div>
+    <div class="conf-item">
+      <div class="conf-venue-tag">TROPQUA<br/>2024</div>
+      <div><div class="conf-title">Long-term Interactions Among Wildfires, Vegetation, Climate, and Human Activities in Central Taiwan: Toushe Basin Sediments 17.3–2.0 cal kyr BP</div><div class="conf-venue-name">TROPQUA 2024 · Poster &amp; Flash Talk</div></div>
+    </div>
+    <div class="conf-item">
+      <div class="conf-venue-tag">EGU 2024</div>
+      <div><div class="conf-title">Primary Production and Dinitrogen Fixation in a Subtropical Inland Saline Environment</div><div class="conf-venue-name">EGU General Assembly 2024</div></div>
+    </div>
+    <div class="conf-item">
+      <div class="conf-venue-tag">Invited<br/>2023</div>
+      <div><div class="conf-title">History of Forest Fires in the Western Himalaya and Their Linkages to Climate and Human Activity</div><div class="conf-venue-name">Paleopercs Seminar Series (Online) · February 2023</div></div>
+    </div>
+    <div class="conf-item">
+      <div class="conf-venue-tag">EGU 2023</div>
+      <div><div class="conf-title">Isotopic Exploration of Eco-Hydrological Connectivity in the Riparian Zones of Southern Western Ghats, India</div><div class="conf-venue-name">EGU General Assembly 2023</div></div>
+    </div>
+    <div class="conf-item">
+      <div class="conf-venue-tag">AGU 2020<br/>Oral</div>
+      <div><div class="conf-title">Paleo-Biogeochemistry of the Central Himalayan Region During Late MIS 3 Using Stable Isotopic Composition of Organic Matter</div><div class="conf-venue-name">AGU Fall Meeting 2020 · Online</div></div>
+    </div>
+    <div class="conf-item">
+      <div class="conf-venue-tag">SIL<br/>Congress</div>
+      <div><div class="conf-title">Reconstruction of the Environment and Biogeochemistry of a High-Altitude Himalayan Lake (33–7 ka) Using Stable Isotope Systematics</div><div class="conf-venue-name">36th International Society of Limnology Congress</div></div>
+    </div>
+    <div class="conf-item">
+      <div class="conf-venue-tag">NCAOR<br/>2017</div>
+      <div><div class="conf-title">Diatom Oxygen Isotopes: A Potential Tool for Paleoclimate Reconstruction</div><div class="conf-venue-name">Workshop on Quantitative Reconstruction &amp; Numerical Methods, Goa · Poster</div></div>
+    </div>
+  </section>
+</div>
+
+<!-- SKILLS -->
+<div class="page">
+  <section id="skills">
+    <div class="sec-label">Technical Skills</div>
+    <div class="skill-row">
+      <div class="skill-cat">Instruments</div>
+      <div class="skill-tags">
+        <span class="skill-tag">EA-IRMS</span>
+        <span class="skill-tag">Picarro G2201-i</span>
+        <span class="skill-tag">GasBench</span>
+        <span class="skill-tag">Kiel Carbonate Device</span>
+        <span class="skill-tag">XRF</span>
+        <span class="skill-tag">GC</span>
+        <span class="skill-tag">¹⁴C Graphitization Lines</span>
+      </div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-cat">Software</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">R</span>
+        <span class="skill-tag">SigmaPlot</span>
+        <span class="skill-tag">OriginPro</span>
+        <span class="skill-tag">LaTeX</span>
+        <span class="skill-tag">CorelDraw</span>
+        <span class="skill-tag">Affinity Designer</span>
+      </div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-cat">Methods</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Stable Isotope Analysis</span>
+        <span class="skill-tag">Sediment Coring</span>
+        <span class="skill-tag">Radiocarbon Dating</span>
+        <span class="skill-tag">Multi-proxy Analysis</span>
+        <span class="skill-tag">Black Carbon Quantification</span>
+        <span class="skill-tag">Biomarker Analysis</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- CONTACT -->
+<div class="page">
+  <section id="contact">
+    <div class="sec-label">Contact</div>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <div class="c-label">Institutional</div>
+        <div class="c-value"><a href="mailto:astabdull@ccu.edu.tw">astabdull@ccu.edu.tw</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="c-label">Personal</div>
+        <div class="c-value"><a href="mailto:rabdur709@gmail.com">rabdur709@gmail.com</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="c-label">Location</div>
+        <div class="c-value" style="font-size:.85rem;line-height:1.7;">Dept. of Earth &amp; Environmental Sciences<br>National Chung Cheng University<br>Chiayi, Taiwan 62102</div>
+      </div>
+      <div class="contact-item">
+        <div class="c-label">ORCID</div>
+        <div class="c-value"><a href="https://orcid.org/0000-0001-6135-154X" target="_blank">0000-0001-6135-154X</a></div>
+      </div>
+    </div>
+    <div style="margin-top:32px; display:flex; gap:12px; flex-wrap:wrap;">
+      <a class="chip" href="https://scholar.google.com/citations?user=3f8vIOMAAAAJ&hl=en" target="_blank">Google Scholar ↗</a>
+      <a class="chip" href="https://www.researchgate.net/profile/Abdur-Rahman-52" target="_blank">ResearchGate ↗</a>
+      <a class="chip" href="https://twitter.com/shant_admi" target="_blank">Twitter / X ↗</a>
+      <a class="chip" href="https://orcid.org/0000-0001-6135-154X" target="_blank">ORCID ↗</a>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 Abdur Rahman · National Chung Cheng University, Taiwan ·
+  <a href="mailto:astabdull@ccu.edu.tw">astabdull@ccu.edu.tw</a>
+</footer>
+
+<script>
+  function filterPubs(type, btn) {
+    document.querySelectorAll('.pf-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('#pub-list .pub-item').forEach(item => {
+      item.style.display = (type === 'all' || item.dataset.type === type) ? '' : 'none';
+    });
+  }
+
+  // Active nav highlight on scroll
+  const sections = document.querySelectorAll('section[id], div[id]');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      const active = a.getAttribute('href') === '#' + cur;
+      a.style.color = active ? 'var(--ink)' : '';
+      a.style.fontWeight = active ? '500' : '';
+    });
+  });
+</script>
 </body>
 </html>
